@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "Auto RTL for Persian",
+    "version": "1.0",
+    "description": "Automatically adds dir=rtl to elements with Persian text",
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"],
+        "run_at": "document_end"
+      }
+    ]
+  }
