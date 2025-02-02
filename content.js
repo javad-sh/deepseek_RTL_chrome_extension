@@ -1,9 +1,7 @@
-// content.js - نسخه نهایی
-const persianRegex = /[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F]/;
+const arabicPersianRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u067E\u0686\u06AF\u200C\u200F]/;
 const allowedTags = ["P", "SPAN", "H1", "H2", "H3", "LI", "OL", "UL"];
 const TARGET_URL = "https://chat.deepseek.com/";
 
-// بررسی URL صفحه
 function isTargetPage() {
     return window.location.href.startsWith(TARGET_URL);
 }
@@ -13,7 +11,7 @@ function isInsideCodeBlock(element) {
 }
 
 function applyRTL(element) {
-    if (!isTargetPage()) return; // شرط جدید
+    if (!isTargetPage()) return;
     if (isInsideCodeBlock(element)) return;
 
     const isListContainer = ["UL", "OL", "LI"].includes(element.tagName);
@@ -31,17 +29,15 @@ function applyRTL(element) {
     }
 }
 
-// اسکن اولیه با بررسی URL
 function scanPage() {
-    if (!isTargetPage()) return; // شرط جدید
+    if (!isTargetPage()) return;
 
     const selector = [...allowedTags, "UL", "OL", "LI"].join(", ");
     document.querySelectorAll(selector).forEach(el => !isInsideCodeBlock(el) && applyRTL(el));
 }
 
-// مشاهده‌گر تغییرات با بررسی URL
 const observer = new MutationObserver(mutations => {
-    if (!isTargetPage()) return; // شرط جدید
+    if (!isTargetPage()) return;
 
     mutations.forEach(mutation => {
         mutation.addedNodes.forEach(node => {
@@ -57,7 +53,6 @@ const observer = new MutationObserver(mutations => {
     });
 });
 
-// شروع مشاهده فقط در صورت تطابق URL
 if (isTargetPage()) {
     observer.observe(document.documentElement, {
         childList: true,
